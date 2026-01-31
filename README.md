@@ -29,35 +29,23 @@ Application Options:
   -v, --verbose                Show verbose information
   -d, --debug                  Show debug information
       --version                Show version information and exit
-  -b, --random-wait-before=    Max. random wait before first measurement, default is 15s (default: 10s)
-  -a, --random-wait-after=     Max. random wait after first measurement, default is 15s (default: 10s)
-  -t, --load-type=             Load average type, can be 1=load1,5=load5,15=load15 (default: 1)
-  -m, --measurement-interval=  Interval between measurements, default is 10s (default: 10s)
+  -b, --random-wait-before=    Max. random wait before first measurement,
+                               default is 15s (default: 10s)
+  -a, --random-wait-after=     Max. random wait after first measurement,
+                               default is 15s (default: 10s)
+  -t, --load-type=             Load average type, can be
+                               1=load1,5=load5,15=load15 (default: 1)
+  -m, --measurement-interval=  Interval between measurements, default is 10s
+                               (default: 10s)
   -i, --immediate-start-below= Immediately start below this load value
-  -l, --delayed-start-below=   Start if two subsequent loads are below this value
-      --do-not-wait-after=     Do not wait inside the loop after this amount of time, regardless of the load average. A non-positive value disables this function.
+  -l, --delayed-start-below=   Start if two subsequent loads are below this
+                               value
+      --do-not-wait-after=     Do not wait inside the loop after this amount of
+                               time, regardless of the load average. A
+                               non-positive value disables this function.
                                Resolution is 100msec.
-      --success-on-timeout     Return with zero exit code, even if timed out on --do-not-wait-after
-
-Help Options:
-  -h, --help                   Show this help message
-
-Usage:
-  wait2calm [OPTIONS]
-
-Application Options:
-  -v, --verbose                Show verbose information
-  -d, --debug                  Show debug information
-      --version                Show version information and exit
-  -b, --random-wait-before=    Max. random wait before first measurement, default is 15s (default: 10s)
-  -a, --random-wait-after=     Max. random wait after first measurement, default is 15s (default: 10s)
-  -t, --load-type=             Load average type, can be 1=load1,5=load5,15=load15 (default: 1)
-  -m, --measurement-interval=  Interval between measurements, default is 10s (default: 10s)
-  -i, --immediate-start-below= Immediately start below this load value
-  -l, --delayed-start-below=   Start if two subsequent loads are below this value
-      --do-not-wait-after=     Do not wait inside the loop after this amount of time, regardless of the load average. A non-positive value disables this function.
-                               Resolution is 100msec.
-      --success-on-timeout     Return with zero exit code, even if timed out on --do-not-wait-after
+      --success-on-timeout     Return with zero exit code, even if timed out on
+                               --do-not-wait-after
 
 Help Options:
   -h, --help                   Show this help message
@@ -94,7 +82,7 @@ Jan 31 16:03:24.784 WRN Do not wait anymore --do-not-wait-after=10s elapsed=10.0
 ```
 ## Building
 
-Tested on linux only. Does not work on linux (because github.com/shirou/gopsutil cannot get load average on Windows).
+Tested on linux only. Does not work on windows (because github.com/shirou/gopsutil cannot get load average on Windows).
 
 If you really want to use it under Windows, please contact me, cpu load could possibly be used instead of load average.
 
