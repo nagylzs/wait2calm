@@ -92,4 +92,13 @@ Jan 31 16:03:17.160 INF Do not start load=1.24 delayed-start-below=1
 Jan 31 16:03:17.160 INF Wait before next measurement measurement-interval=10s elapsed=2.414654734s
 Jan 31 16:03:24.784 WRN Do not wait anymore --do-not-wait-after=10s elapsed=10.039400089s
 ```
+## Building
 
+Tested on linux only. Does not work on linux (because github.com/shirou/gopsutil cannot get load average on Windows).
+
+If you really want to use it under Windows, please contact me, cpu load could possibly be used instead of load average.
+
+```bash
+scripts/build.sh # to build for your platform
+scripts/build.sh # to build for multiple OS and architectures
+```

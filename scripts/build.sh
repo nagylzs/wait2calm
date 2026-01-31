@@ -4,8 +4,8 @@ DIR="$(dirname $(realpath $0))"
 DIST=${DIR}/../dist
 
 if [ $1 == "all" ]; then
-    oss=(linux)
-    archs=(amd64)
+    oss=(linux freebsd openbsd)
+    archs=(386 amd64 arm arm64)
 else
     eval $(go tool dist env)
     oss=($GOOS)
