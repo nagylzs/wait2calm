@@ -4,7 +4,7 @@
 This is a simple utility that waits until the computer calms down. 
 
 * You can use this before starting a CPU-hungry application.
-* You can add random delays, it is usefuly when multiple `wait2calm` instances are running in parallel.
+* You can add random delays, it is useful when multiple `wait2calm` instances are running in parallel.
 
 This is how it works:
 
@@ -16,6 +16,8 @@ This is how it works:
    4. if the loop stated more than `--do-not-wait-after` ago, then break the cycle
    5. wait `--measurement-interval` before starting the next cycle
 3. wait a random amount of time, maximum wait is given by `--random-wait-after`
+
+Note: `--do-not-wait-after` also affects step 1 and step 3.
 
 ## Command line options
 
@@ -64,7 +66,7 @@ Help Options:
 
 ## Exit codes
 
-* 0 - calmed down
+* 0 - calmed down, or timed out with `--success-on-timeout`
 * 1 - timed out on `--do-not-wait-after`
 * 2 - other error
 
