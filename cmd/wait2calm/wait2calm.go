@@ -86,7 +86,9 @@ func waitSome(w time.Duration, started time.Time, doNotWaitAfter time.Duration) 
 	for w > 0 {
 		elapsed := time.Since(started)
 		if doNotWaitAfter > 0 && elapsed > doNotWaitAfter {
-			slog.Warn("Do not wait anymore", "--do-not-wait-after", doNotWaitAfter, "elapsed", elapsed)
+			slog.Warn("Do not wait anymore",
+				"--do-not-wait-after", FormatFluent(doNotWaitAfter),
+				"elapsed", FormatFluent(elapsed))
 			return false
 		}
 		if w > Granularity {
@@ -98,6 +100,23 @@ func waitSome(w time.Duration, started time.Time, doNotWaitAfter time.Duration) 
 		}
 	}
 	return true
+}
+
+func FormatFluent(d time.Duration) string {
+	switch {
+	case d >= time.Hour:
+		return fmt.Sprintf("%.2fh", float64(d)/float64(time.Hour))
+	case d >= time.Minute:
+		return fmt.Sprintf("%.2fm", float64(d)/float64(time.Minute))
+	case d >= time.Second:
+		return fmt.Sprintf("%.2fs", float64(d)/float64(time.Second))
+	case d >= time.Millisecond:
+		return fmt.Sprintf("%.2fms", float64(d)/float64(time.Millisecond))
+	case d >= time.Microsecond:
+		return fmt.Sprintf("%.2fµs", float64(d)/float64(time.Microsecond))
+	default:
+		return fmt.Sprintf("%dns", d.Nanoseconds())
+	}
 }
 
 // returns an error, and a flag that is set when it times out on --do-not-wait-after
@@ -123,7 +142,9 @@ func runMain(opts config.Opts, posArgs []string) (error, bool) {
 
 	if opts.WaitBefore != time.Duration(0) {
 		w := time.Duration(rand.Float64() * float64(opts.WaitBefore))
-		slog.Info("Wait before first measurement", "max", opts.WaitBefore, "actual", w)
+		slog.Info("Wait before first measurement",
+			"max", FormatFluent(opts.WaitBefore),
+			"actual", FormatFluent(w))
 		if !waitSome(w, started, opts.DoNotWaitAfter) {
 			return nil, true
 		}
@@ -145,21 +166,31 @@ func runMain(opts config.Opts, posArgs []string) (error, bool) {
 			load = info.Load15
 		}
 		if load <= opts.ImmediateStartBelow {
-			slog.Info("Immediate start", "load", load, "immediate-start-below", opts.ImmediateStartBelow)
+			slog.Info("Immediate start",
+				"load", load,
+				"immediate-start-below", opts.ImmediateStartBelow)
 			break
 		}
 		if load < opts.DelayedStartBelow && prevBelow {
-			slog.Info("Delayed start (second measurement)", "load", load, "delayed-start-below", opts.DelayedStartBelow)
+			slog.Info("Delayed start (second measurement)",
+				"load", load,
+				"delayed-start-below", opts.DelayedStartBelow)
 			break
 		}
 		if load < opts.DelayedStartBelow {
 			prevBelow = true
-			slog.Info("Delayed start (first measurement)", "load", load, "delayed-start-below", opts.DelayedStartBelow)
+			slog.Info("Delayed start (first measurement)",
+				"load", load,
+				"delayed-start-below", opts.DelayedStartBelow)
 		} else {
 			prevBelow = false
-			slog.Info("Do not start", "load", load, "delayed-start-below", opts.DelayedStartBelow)
+			slog.Info("Do not start yet",
+				"load", load,
+				"delayed-start-below", opts.DelayedStartBelow)
 		}
-		slog.Info("Wait before next measurement", "measurement-interval", opts.MeasurementInterval, "elapsed", time.Since(started))
+		slog.Info("Wait before next measurement",
+			"measurement-interval", FormatFluent(opts.MeasurementInterval),
+			"elapsed", FormatFluent(time.Since(started)))
 
 		if !waitSome(opts.MeasurementInterval, started, opts.DoNotWaitAfter) {
 			return nil, true
@@ -168,7 +199,9 @@ func runMain(opts config.Opts, posArgs []string) (error, bool) {
 
 	if opts.WaitAfter != time.Duration(0) {
 		w := time.Duration(rand.Float64() * float64(opts.WaitAfter))
-		slog.Info("Wait after calm down", "max", opts.WaitAfter, "actual", w)
+		slog.Info("Wait after calm down",
+			"max", FormatFluent(opts.WaitAfter),
+			"actual", FormatFluent(w))
 		if !waitSome(w, started, opts.DoNotWaitAfter) {
 			return nil, true
 		}
