@@ -3,7 +3,7 @@ set -e
 DIR="$(dirname $(realpath $0))"
 DIST=${DIR}/../dist
 
-if [ $1 == "all" ]; then
+if [ "$1" == "all" ]; then
     oss=(linux freebsd openbsd)
     archs=(386 amd64 arm arm64)
 else
